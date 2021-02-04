@@ -178,26 +178,34 @@ namespace Nexogen
 
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             FreeVehicle freeVehicle = new FreeVehicle();
             Dictionary<string, List<int>> Jobs = new Dictionary<string, List<int>>();
-            using (FileStream fs = new FileStream(Directory.GetCurrentDirectory() + @"\Input.txt", FileMode.Open, FileAccess.Read))
+            using (FileStream fs = new FileStream(Directory.GetCurrentDirectory() + @"\Iinput.txt", FileMode.Open, FileAccess.Read))
             {
-                StreamReader sr = new StreamReader(fs,Encoding.UTF8);
-                int Vehicles = int.Parse(sr.ReadLine());
-                for (int i = 0; i < Vehicles; i++)
+                try
                 {
-                    freeVehicle.Add(sr.ReadLine());
+                    StreamReader sr = new StreamReader(fs);
+                    int Vehicles = int.Parse(sr.ReadLine());
+                    for (int i = 0; i < Vehicles; i++)
+                    {
+                        freeVehicle.Add(sr.ReadLine());
+                    }
+                    int JobsCounter = int.Parse(sr.ReadLine());
+                    for (int i = 0; i < JobsCounter; i++)
+                    {
+                        Job job = new Job(sr.ReadLine());
+                        if (Jobs.ContainsKey(job.JobType))
+                            Jobs[job.JobType].Add(job.ID);
+                        else
+                            Jobs.Add(job.JobType, new List<int>() { job.ID});
+                    }
                 }
-                int JobsCounter = int.Parse(sr.ReadLine());
-                for (int i = 0; i < JobsCounter; i++)
+                catch (Exception e)
                 {
-                    Job job = new Job(sr.ReadLine());
-                    if (Jobs.ContainsKey(job.JobType))
-                        Jobs[job.JobType].Add(job.ID);
-                    else
-                        Jobs.Add(job.JobType, new List<int>() { job.ID});
+                    Console.WriteLine("File error:");
+                    Console.WriteLine(e.Message);
                 }
             }
             freeVehicle.Sort();
@@ -209,21 +217,13 @@ namespace Nexogen
             {
                 stringBuilder.AppendLine(item.Key.ToString() + ' ' + item.Value.ToString());
             }
-
-            using (FileStream fs = new FileStream(Directory.GetCurrentDirectory() + "\\Output.txt",FileMode.Open,FileAccess.ReadWrite,FileShare.ReadWrite))
+            try
             {
-                try
-                {
-                    StreamWriter sw = new StreamWriter(fs);
-                    sw.Write("Hello");
-                    //sw.Write(stringBuilder.ToString());writealltext file
-                    sw.Close();
-                }
-                catch (Exception e)
-                {
-                    Console.WriteLine("Error with writeing to file:");
-                    Console.WriteLine(e.Message);
-                }
+                File.WriteAllText(Directory.GetCurrentDirectory() + @"\Output.txt", stringBuilder.ToString());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
             }
         }
     }
