@@ -1,0 +1,66 @@
+﻿A common dilemma what a trucking company faces is matching vehicles and orders. Which truck should carry which job in order to make the operation as cheap as possible. This is a very common yet very complex challenge. Your task is to solve a subset of this problem.
+
+Given two lists, the first one contains the available trucks and the compatible job types the truck can carry. The other one contains the current jobs.
+
+Please match the vehicles with jobs, where should consider the job type constraints during the pairing. The types of jobs are marked with letters. Each truck has a list of letters that indicates the compatible job types.
+
+The goal is to find a truck for each job. If you can’t find truck for all the jobs, a partial solution is also acceptable.
+
+Please write your solution in C# and use .NET Core framework. Please pay attention to the quality and validity of your code.
+
+Input:
+The input file can be downloaded from the link below:
+https://nexogenshares.blob.core.windows.net/recruitment/mediordev.txt
+
+The format of the input file is the following:
+
+<Number of vehicles>
+<Vehicle id> <Compatible job types list>
+...
+<Number of current jobs>
+<Job id> <Job type>
+...
+Example:
+
+3
+1 A B
+2 B
+3 B
+2
+1 B
+2 A
+The expected output format:
+
+<Vehicle id> <Job id>
+...
+Example:
+
+2 1
+1 2
+
+Idea:
+
+// First Load every "Vehicle" and "Job" (Count the job types) (Count Vehicle Types) Looking for errors!!!
+// 2nd Sort Free vehicles.
+// 3rd Start from the less JobCounter vehicles: Take a job. (manage stuff)
+// 4th Priorities the more job if a vehicle can chose.
+
+//classes:	ID:
+				Got ID can read ID
+			Vehicle:
+				Inherited from ID
+				Job type counter (sort them by this)
+				Got Job Compatibility list (enum Job types)
+			Job:
+				inherited from ID
+				Got job type
+			ListOfVehicle:
+				Use remove from list
+			ListOfJobs:
+				Use remove from list
+			JobsDone:
+				ListOfVehicle and ListOfJobs put in tags
+
+// Methods:	Vehicle.Sort()
+				Sort the vehicles for 2nd point
+			Use(vehicle)
