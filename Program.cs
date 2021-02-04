@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Numerics;
 using System.Text;
 
 namespace Nexogen
@@ -199,13 +200,14 @@ namespace Nexogen
                         if (Jobs.ContainsKey(job.JobType))
                             Jobs[job.JobType].Add(job.ID);
                         else
-                            Jobs.Add(job.JobType, new List<int>() { job.ID});
+                            Jobs.Add(job.JobType, new List<int>() { job.ID });
                     }
                 }
                 catch (Exception e)
                 {
                     Console.WriteLine("File error:");
                     Console.WriteLine(e.Message);
+                    throw (e);
                 }
             }
             freeVehicle.Sort();
